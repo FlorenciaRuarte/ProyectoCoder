@@ -1,15 +1,19 @@
 from django.contrib import admin
 from django.urls import path
-from AppCoder import views
-from AppCoder.views import curso, inicio, curso_formulario
+from AppCoder.views import *
 
 
 urlpatterns = [
-    path('curso/', curso, name = "AppCoder Curso"),
-    path('inicio/', inicio, name ="AppCoder Inicio"),
-    path('cursoformulario/', curso_formulario, name="AppCoderCursoFormulario"),
+    path('curso/list', CursoList.as_view(), name='List'),
+    path(r'^(?P<pk>\d+)$', CursoDetalle.as_view(), name='Detail'),
+    path(r'^nuevo$', CursoCreacion.as_view(), name='New'),
+    path(r'^editar/(?P<pk>\d+)$', CursoUpdate.as_view(), name='Edit'),
+    path(r'^borrar/(?P<pk>\d+)$', CursoDelete.as_view(), name='Delete'),
+]
+
+
+
+
 
 
        
-]
-

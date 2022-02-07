@@ -1,36 +1,33 @@
-from django.shortcuts import render
 
-from AppCoder.forms import CursoFormulario
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
 from .models import Curso
 
 
 
 # Create your views here.
 
-def curso(request):
-    return render (request, 'AppCoder/curso.html')
+class CursoList (ListView):
+    model = Curso
+    template_name= "AppCoder/cursos_list.html"
 
-def inicio (request):
-    return render (request, 'AppCoder/index.html')
+class CursoDetalle (DetailView):
+    model = Curso
+    template_name= "AppCoder/cursos_detalle.html"
 
+class CursoCreacion (CreateView):
+    model = Curso
+    succes_url= "AppCoder/curso/list"
+    fields = ["nombre" , "camada"]
 
-def curso_formulario(request):
-    if request.method == 'POST':
-        miFormulario = CursoFormulario(request.POST)
-        print(miFormulario)
-        if miFormulario.is_valid:
-            
-            informacion = miFormulario.data
-            
-            r_curso = informacion['nombre']
-            r_camada = informacion['camada']
-        
-            curso = Curso(nombre=r_curso, camada=r_camada)
-            curso.save()
-    
+class CursoUpdate(UpdateView):
+    model = Curso
+    succes_url = "AppCoder/curso/list"
+    fields = ["nombre, camada"]
+
+class CursoDelete (DeleteView):
+    model = Curso
+    succes_url= "AppCoder/curso/list"
   
-    miFormulario = CursoFormulario()
-    return render(request, 'AppCoder/curso_formulario.html', {"miFormulario" : miFormulario})
-
-
-
